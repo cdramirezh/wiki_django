@@ -16,3 +16,11 @@ def test(request):
         data = file.read()
     test = markdowner.convert(data)
     return HttpResponse(test)
+
+def test2(request, entry):
+    markdowner = Markdown()
+    route = '/home/higi/dev/edx/wiki/entries/'+entry+'.md'
+    with open(route, 'r') as file:
+        data = file.read()
+    test = markdowner.convert(data)
+    return HttpResponse(test)
