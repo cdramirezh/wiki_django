@@ -19,4 +19,4 @@ def entry_page(request, entry):
             'html_entry': html_entry
         })
     else:
-        return HttpResponse("Not found, bro")
+        return render(request, "encyclopedia/not_found.html")
