@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse #Delete this later when no longer needed
+from . import util
 from markdown2 import Markdown
 
 from . import util
@@ -9,18 +10,8 @@ def index(request):
         "entries": util.list_entries()
     })
 
-def test(request):
+def entry_page(request, entry):
     markdowner = Markdown()
-    route = '/home/higi/dev/edx/wiki/entries/HTML.md'
-    with open(route, 'r') as file:
-        data = file.read()
-    test = markdowner.convert(data)
-    return HttpResponse(test)
-
-def test2(request, entry):
-    markdowner = Markdown()
-    route = '/home/higi/dev/edx/wiki/entries/'+entry+'.md'
-    with open(route, 'r') as file:
-        data = file.read()
-    test = markdowner.convert(data)
-    return HttpResponse(test)
+    raw_md = util.get_entry(entry)
+    html_entry = markdowner.convert(raw_md)
+    return HttpResponse(html_entry)
