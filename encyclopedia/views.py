@@ -15,6 +15,8 @@ def entry_page(request, entry):
     raw_md = util.get_entry(entry)
     if raw_md:
         html_entry = markdowner.convert(raw_md)
-        return HttpResponse(html_entry)
+        return render(request, "encyclopedia/entry.html",{
+            'html_entry': html_entry
+        })
     else:
         return HttpResponse("Not found, bro")
