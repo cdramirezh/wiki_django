@@ -1,11 +1,11 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Encyclopedia
+    {{ name }}
 {% endblock %}
 
 {% block body %}
 
     {{ html_entry|safe }}
-    
+
 {% endblock %}
