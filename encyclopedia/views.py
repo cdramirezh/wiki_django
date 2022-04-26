@@ -13,5 +13,8 @@ def index(request):
 def entry_page(request, entry):
     markdowner = Markdown()
     raw_md = util.get_entry(entry)
-    html_entry = markdowner.convert(raw_md)
-    return HttpResponse(html_entry)
+    if raw_md:
+        html_entry = markdowner.convert(raw_md)
+        return HttpResponse(html_entry)
+    else:
+        return HttpResponse("Not found, bro")
