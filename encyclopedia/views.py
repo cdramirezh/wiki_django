@@ -1,15 +1,10 @@
 from django.shortcuts import render
 from . import util
 from markdown2 import Markdown
-
 from django import forms
-
 from django.http import HttpResponse
-
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
-
 from . import util
 
 class EntryForm(forms.Form):
@@ -35,8 +30,23 @@ def entry_page(request, entry):
 def test(request):
     if request.method == 'POST':
         entry = request.POST['q']
-        clean_entry = ''.join(entry)
-        return HttpResponseRedirect(reverse('entry_page', args = [entry] ))
-    
-    return HttpResponse('Not even a POST')
-    
+        if util.get_entry(entry):
+            return HttpResponseRedirect(reverse('entry_page', args = [entry] ))
+        else:
+            entries = util.list_entries()
+            some_entries = []
+
+            for element in entries:
+                if str(entry).lower() in element.lower():
+                    some_entries += [element]
+
+            if len(some_entries):
+                #Cambiar el index para que diga algo mejor. Ponerle algo mejor a la ruta
+                return render(request, "encyclopedia/index.html", {
+                    "entries": some_entries
+                })
+            else:
+                #Poner un mensaje descriptivo en Not Found
+                return render(request, "encyclopedia/not_found.html")
+
+    return HttpResponse('Not even a POST')    
