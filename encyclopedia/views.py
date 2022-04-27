@@ -27,7 +27,7 @@ def entry_page(request, entry):
     else:
         return render(request, "encyclopedia/not_found.html")
     
-def test(request):
+def search(request):
     if request.method == 'POST':
         entry = request.POST['q']
         if util.get_entry(entry):
