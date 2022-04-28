@@ -10,6 +10,10 @@ from . import util
 class EntryForm(forms.Form):
     entry = forms.CharField()
 
+class NewEntryForm(forms.Form):
+    title = forms.CharField()
+    new_entry_md = forms.CharField(widget=forms.Textarea)
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
@@ -49,4 +53,9 @@ def search(request):
                 #Poner un mensaje descriptivo en Not Found
                 return render(request, "encyclopedia/not_found.html")
 
-    return HttpResponse('Not even a POST')    
+    return HttpResponse('Not even a POST')
+
+def new_page(request):
+    return render(request, "encyclopedia/new_entry.html", {
+        'form': NewEntryForm()
+    })
