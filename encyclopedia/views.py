@@ -11,8 +11,8 @@ class EntryForm(forms.Form):
     entry = forms.CharField()
 
 class NewEntryForm(forms.Form):
-    title = forms.CharField()
-    new_entry_md = forms.CharField(widget=forms.Textarea)
+    title = forms.CharField(label='New entrys title')
+    new_entry_md = forms.CharField(widget=forms.Textarea, label='New entrys markdown')
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -56,6 +56,16 @@ def search(request):
     return HttpResponse('Not even a POST')
 
 def new_page(request):
+    if request.method == "POST":
+        form = NewEntryForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            new_entry_md = form.cleaned_data['new_entry_md']
+            util.save_entry(title, new_entry_md)
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return HttpResponse('Invalid form')
+
     return render(request, "encyclopedia/new_entry.html", {
         'form': NewEntryForm()
     })

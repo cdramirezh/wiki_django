@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <p>Everything working so far...</p>
-    <form>
+    <form action="{% url 'new_page' %}", method="POST">
+        {% csrf_token %}
         {{ form }}
+        <input type="submit">
     </form>
 {% endblock %}
