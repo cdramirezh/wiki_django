@@ -63,11 +63,13 @@ def new_page(request):
             new_entry_md = form.cleaned_data['new_entry_md']
 
             if util.get_entry(title):
+                #This error messaje should be sexier.
                 return HttpResponse('Error. Duplicate entry')
             else:
                 util.save_entry(title, new_entry_md)
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("entry_page", args = [title] ))
         else:
+            #This error message could be (Not neccessary) sexier
             return HttpResponse('Invalid form')
 
     return render(request, "encyclopedia/new_entry.html", {
