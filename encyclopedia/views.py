@@ -61,8 +61,12 @@ def new_page(request):
         if form.is_valid():
             title = form.cleaned_data['title']
             new_entry_md = form.cleaned_data['new_entry_md']
-            util.save_entry(title, new_entry_md)
-            return HttpResponseRedirect(reverse("index"))
+
+            if util.get_entry(title):
+                return HttpResponse('Error. Duplicate entry')
+            else:
+                util.save_entry(title, new_entry_md)
+                return HttpResponseRedirect(reverse("index"))
         else:
             return HttpResponse('Invalid form')
 
