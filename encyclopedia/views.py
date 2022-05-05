@@ -26,7 +26,8 @@ def entry_page(request, entry):
         html_entry = markdowner.convert(raw_md)
         return render(request, "encyclopedia/entry.html",{
             'html_entry': html_entry,
-            'name': entry
+            'name': entry,
+            'edit_link_activated': 'true'
         })
     else:
         return render(request, "encyclopedia/not_found.html")
