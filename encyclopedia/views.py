@@ -76,3 +76,8 @@ def new_page(request):
     return render(request, "encyclopedia/new_entry.html", {
         'form': NewEntryForm()
     })
+
+def edit_page(request):
+    return render(request, "encyclopedia/edit_entry.html", {
+        'form': NewEntryForm()
+    })
