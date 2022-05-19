@@ -14,6 +14,10 @@ class NewEntryForm(forms.Form):
     title = forms.CharField(label='New entrys title')
     new_entry_md = forms.CharField(widget=forms.Textarea, label='New entrys markdown')
 
+class EditEntryForm(forms.Form):
+    title = forms.CharField(label='Entrys title')
+    new_entry_md = forms.CharField(widget=forms.Textarea, label='Entrys markdown')
+
 def index(request):
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries()
@@ -79,5 +83,5 @@ def new_page(request):
 
 def edit_page(request):
     return render(request, "encyclopedia/edit_entry.html", {
-        'form': NewEntryForm()
+        'form': EditEntryForm()
     })
