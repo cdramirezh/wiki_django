@@ -16,7 +16,7 @@ class NewEntryForm(forms.Form):
 
 class EditEntryForm(forms.Form):
     title = forms.CharField(label='Entrys title')
-    new_entry_md = forms.CharField(widget=forms.Textarea, label='Entrys markdown')
+    entry_md = forms.CharField(widget=forms.Textarea, label='Entrys markdown')
 
 def index(request):
     return render(request, "encyclopedia/index.html", {
@@ -81,7 +81,19 @@ def new_page(request):
         'form': NewEntryForm()
     })
 
-def edit_page(request):
-    return render(request, "encyclopedia/edit_entry.html", {
-        'form': EditEntryForm()
-    })
+def edit_page(request, entry):
+    if request.method == "POST":    
+        return HttpResponse('It was a POST')
+    if request.method == "GET":
+        markdowner = Markdown()
+        raw_md = util.get_entry(entry)
+        data = {
+            'title': entry,
+            'entry_md': raw_md
+        }
+        form = EditEntryForm(initial=data)
+        return render(request, "encyclopedia/edit_entry.html", {
+            'form': form,
+            'entry_name': entry
+        })
+    return HttpResponse('Sorry, couldnt find the page')

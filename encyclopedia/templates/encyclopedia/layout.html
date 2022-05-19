@@ -26,11 +26,13 @@
                     Random Page
                 </div>
                 {% if edit_link_activated %}
-                    <a href="{% url 'edit_page' %}">Edit Page</a>
+                <div>
+                    <a href="{% url 'edit_page' name %}">Edit Page</a>
+                </div>
                 {% else %}
                     
                 {% endif %}
-
+            
                 {% block nav %}
                 {% endblock %}
             </div>
