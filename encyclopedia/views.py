@@ -81,8 +81,12 @@ def new_page(request):
     })
 
 def edit_page(request, entry):
-    if request.method == "POST":    
-        return HttpResponse('It was a POST')
+    if request.method == "POST":
+        form = EditEntryForm(request.POST)
+        if form.is_valid():
+            new_md = form.cleaned_data['entry_md']
+            util.save_entry(entry, new_md)
+        return HttpResponse('It was a POST. Return to confirm successfully save')
     if request.method == "GET":
         markdowner = Markdown()
         raw_md = util.get_entry(entry)
