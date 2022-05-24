@@ -15,7 +15,6 @@ class NewEntryForm(forms.Form):
     new_entry_md = forms.CharField(widget=forms.Textarea, label='New entrys markdown')
 
 class EditEntryForm(forms.Form):
-    title = forms.CharField(label='Entrys title')
     entry_md = forms.CharField(widget=forms.Textarea, label='Entrys markdown')
 
 def index(request):
@@ -88,7 +87,6 @@ def edit_page(request, entry):
         markdowner = Markdown()
         raw_md = util.get_entry(entry)
         data = {
-            'title': entry,
             'entry_md': raw_md
         }
         form = EditEntryForm(initial=data)
