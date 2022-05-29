@@ -6,9 +6,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from . import util
-
-class EntryForm(forms.Form):
-    entry = forms.CharField()
+from random import randint
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label='New entrys title')
@@ -99,3 +97,9 @@ def edit_page(request, entry):
             'entry_name': entry
         })
     return HttpResponse('Sorry, couldnt find the page')
+
+def random_page(request):
+    entries = util.list_entries()
+    total = len(entries)
+    random = randint(0,total-1)
+    return HttpResponseRedirect(reverse("entry_page", args = [entries[random]] ))
