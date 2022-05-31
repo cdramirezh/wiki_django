@@ -47,7 +47,6 @@ def search(request):
                     some_entries += [element]
 
             if len(some_entries):
-                #Cambiar el index para que diga algo mejor. Ponerle algo mejor a la ruta
                 return render(request, "encyclopedia/index.html", {
                     "entries": some_entries
                 })
