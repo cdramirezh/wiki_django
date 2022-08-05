@@ -31,7 +31,9 @@ def entry_page(request, entry):
             'edit_link_activated': 'true'
         })
     else:
-        return render(request, "encyclopedia/not_found.html")
+        return render(request, "encyclopedia/error.html", {
+            "error_message": 'Error. The requested page was not found'
+        })
     
 def search(request):
     if request.method == 'POST':
@@ -51,10 +53,13 @@ def search(request):
                     "entries": some_entries
                 })
             else:
-                #Poner un mensaje descriptivo en Not Found
-                return render(request, "encyclopedia/not_found.html")
+                return render(request, "encyclopedia/error.html", {
+                    "error_message": 'Error. The requested page was not found'
+                })
 
-    return HttpResponse('Not even a POST')
+    return render(request, "encyclopedia/error.html", {
+        "error_message": 'Something went wrong. Not even a POST'
+    })
 
 def new_page(request):
     if request.method == "POST":
@@ -64,14 +69,16 @@ def new_page(request):
             new_entry_md = form.cleaned_data['new_entry_md']
 
             if util.get_entry(title):
-                #This error messaje should be sexier.
-                return HttpResponse('Error. Duplicate entry')
+                return render(request, "encyclopedia/error.html", {
+                    "error_message": 'Error. Duplicate entry'
+                })
             else:
                 util.save_entry(title, new_entry_md)
                 return HttpResponseRedirect(reverse("entry_page", args = [title] ))
         else:
-            #This error message could be (Not neccessary) sexier
-            return HttpResponse('Invalid form')
+            return render(request, "encyclopedia/error.html", {
+                "error_message": 'Invalid form'
+            })
 
     return render(request, "encyclopedia/new_entry.html", {
         'form': NewEntryForm()
@@ -95,7 +102,9 @@ def edit_page(request, entry):
             'form': form,
             'entry_name': entry
         })
-    return HttpResponse('Sorry, couldnt find the page')
+    return render(request, "encyclopedia/error.html", {
+        "error_message": 'Error. Sorry, could not find the page'
+    })
 
 def random_page(request):
     entries = util.list_entries()
